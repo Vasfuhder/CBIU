@@ -1,5 +1,6 @@
 import 'package:cbiu/screens/login.dart';
-import 'package:cbiu/screens/user/home.dart';
+import 'package:cbiu/screens/admin/home.dart';
+import 'package:cbiu/screens/users/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const Login(),
+      home: Login(),
     );
   }
 }

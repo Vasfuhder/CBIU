@@ -1,9 +1,14 @@
-import 'package:cbiu/screens/user/home.dart';
+import 'package:cbiu/client/req_collection.dart';
+import 'package:cbiu/screens/admin/home.dart';
 import 'package:cbiu/util/hexcolor.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
+
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
 
   @override
   State<Login> createState() => _LoginState();
@@ -18,9 +23,9 @@ class _LoginState extends State<Login> {
         children: [
           Image.asset("logo.png"),
           const SizedBox(height: 64),
-          field("Username/E-mail", false),
+          field("Username/E-mail", false, widget.controller1),
           const SizedBox(height: 36),
-          field("Senha", true),
+          field("Senha", true, widget.controller2),
           const SizedBox(height: 36),
           SizedBox(
             width: 270,
@@ -33,7 +38,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              onPressed: login,
+              onPressed: _login,
               child: const Text(
                 "Login",
                 style: TextStyle(
@@ -48,11 +53,12 @@ class _LoginState extends State<Login> {
     );
   }
 
-  SizedBox field(String text, bool obscure) {
+  SizedBox field(String text, bool obscure, TextEditingController controller) {
     return SizedBox(
       width: 500,
       height: 60,
       child: TextField(
+        controller: controller,
         cursorColor: Colors.black,
         textAlign: TextAlign.center,
         autofocus: false,
@@ -81,11 +87,39 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void login() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const UserHome(),
-      ),
-    );
+  void _login() async {
+    Map res = await login(widget.controller1.text, widget.controller2.text);
+    if (res["status"] == 200) {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString("token", res["response"]["token"]);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => AdminHome(),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: const Text(
+            "Usuário ou senha incorretos!",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+          backgroundColor: HexColor("#62BC8A"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      );
+    }
   }
 }
