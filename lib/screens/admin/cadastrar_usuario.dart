@@ -6,8 +6,8 @@ class CadastrarUsuario extends StatefulWidget {
   CadastrarUsuario({Key? key}) : super(key: key);
 
   Image image = Image.asset("placeholder.png");
-  List<String> opcoes = ["Admin", "Aluno"];
-  String selected = "Aluno";
+  List<String> opcoes = ["Admin", "Discente", "Docente", "Servidor"];
+  String selected = "Discente";
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
   final _formkey3 = GlobalKey<FormState>();

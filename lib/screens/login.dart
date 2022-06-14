@@ -1,5 +1,6 @@
 import 'package:cbiu/client/req_collection.dart';
 import 'package:cbiu/screens/admin/home.dart';
+import 'package:cbiu/screens/users/home.dart';
 import 'package:cbiu/util/hexcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,13 +91,19 @@ class _LoginState extends State<Login> {
   void _login() async {
     Map res = await login(widget.controller1.text, widget.controller2.text);
     if (res["status"] == 200) {
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString("token", res["response"]["token"]);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => AdminHome(),
-        ),
-      );
+      if (res["response"]["role"] == "admin") {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => AdminHome(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const UsersHome(),
+          ),
+        );
+      }
     } else {
       showDialog(
         context: context,

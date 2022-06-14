@@ -1,6 +1,7 @@
 import 'package:cbiu/screens/admin/cadastrar_usuario.dart';
 import 'package:cbiu/screens/admin/criar_obra.dart';
 import 'package:cbiu/screens/admin/emitir_multa.dart';
+import 'package:cbiu/screens/login.dart';
 import 'package:cbiu/screens/pesquisar.dart';
 import 'package:cbiu/util/hexcolor.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,13 @@ class _AdminHomeState extends State<AdminHome> {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ),
+          );
+        },
         child: const Text(
           "Logout",
           style: TextStyle(

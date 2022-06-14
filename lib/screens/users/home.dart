@@ -1,3 +1,4 @@
+import 'package:cbiu/screens/login.dart';
 import 'package:cbiu/screens/pesquisar.dart';
 import 'package:cbiu/screens/users/lista_livros.dart';
 import 'package:cbiu/util/hexcolor.dart';
@@ -46,7 +47,13 @@ class _UsersHomeState extends State<UsersHome> {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ),
+          );
+        },
         child: const Text(
           "Logout",
           style: TextStyle(
